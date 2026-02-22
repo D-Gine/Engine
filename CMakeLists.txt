@@ -16,6 +16,7 @@ endif()
 ########## COMMUN ##########
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
+    ${SRC_DIR}/Stat.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
