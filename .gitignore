@@ -1,0 +1,7 @@
+# EDITOR
+.cache/
+.vscode/
+
+# BUILD
+build
+dengine
