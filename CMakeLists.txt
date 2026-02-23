@@ -13,13 +13,23 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 endif()
 
+########## PACKAGES ##########
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(JSONCPP jsoncpp)
+
 ########## COMMUN ##########
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_DIR}/Stat.cpp
+    ${SRC_DIR}/Entity.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${HDR_DIR}
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        ${JSONCPP_LIBRARIES}
 )
