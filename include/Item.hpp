@@ -5,8 +5,8 @@
 #pragma once
 
     #include <string>
-    #include <set>
     #include <unordered_map>
+    #include <unordered_set>
     #include <vector>
 
 namespace dng {
@@ -19,7 +19,7 @@ struct Effect {
 
 struct Item {
     std::string name;
-    std::set<std::string> tags;
+    std::unordered_set<std::string> tags;
     std::unordered_map<std::string, int32_t> stat_modifiers;
     std::vector<Effect> effects;
     std::unordered_map<std::string, std::string> metadata;
