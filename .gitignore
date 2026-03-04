@@ -1,7 +1,9 @@
 # EDITOR
 .cache/
 .vscode/
+compile_commands.json
 
 # BUILD
 build
 dengine
+
