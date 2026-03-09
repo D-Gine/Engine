@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+    CACHE STRING "Vcpkg toolchain file")
+
 project(dengine)
 
 ########## SETUP ##########
@@ -13,6 +17,24 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 endif()
 
+
+find_package(Lua REQUIRED)
+
+include(FetchContent)
+
+FetchContent_Declare(
+    LuaCPP
+    GIT_REPOSITORY https://github.com/jordanvrtanoski/luacpp
+    GIT_TAG main
+    SOURCE_SUBDIR Source
+    EXCLUDE_FROM_ALL
+)
+
+FetchContent_MakeAvailable(LuaCPP)
+
+add_subdirectory(ECS)
+
+
 ########## COMMUN ##########
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
@@ -21,4 +43,14 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${HDR_DIR}
+        ${luacpp_SOURCE_DIR}/Source
+        ${LUA_INCLUDE_DIR}
 )
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        luacpp
+        ${LUA_LIBRARIES}
+        ECS
+)
+
