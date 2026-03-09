@@ -12,6 +12,15 @@ display_helper() {
     "
 }
 
+init() {
+    git clone https://github.com/microsoft/vcpkg.git
+    export VCPKG_ROOT=./vcpkg
+    export PATH=$VCPKG_ROOT:$PATH
+    cd ./vcpkg && ./vcpkg/bootstrap-vcpkg.sh && cd ..
+    cmake -B build -S .
+    cmake --build build/
+}
+
 clear_project() {
     rm -rf ./build/
     rm -rf dengine
@@ -60,6 +69,9 @@ then
     pip install cpplint
     cpplint --recursive .
     echo "------------END------------"
+elif [[ $1 == "--init" ]]
+then
+    init
 
 elif [[ $1 == "--help" || $1 == "-h" ]]
 then
