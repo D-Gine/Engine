@@ -3,6 +3,7 @@
  */
 
 #include "Server.hpp"
+#include <httplib.h>
 #include <stdexcept>
 #include <thread>
 #include <print>
@@ -75,11 +76,11 @@ void Server::join() {
 void Server::set_handlers() {
     add_handler("/hi", [](const httplib::Request&, httplib::Response& res){
         res.set_content("Hello World!", "text/plain");
-        res.status = 200;
+        res.status = httplib::StatusCode::OK_200;
     });
     add_handler("/health", [](const httplib::Request&, httplib::Response& res){
         res.set_content("OK", "text/plain");
-        res.status = 200;
+        res.status = httplib::StatusCode::OK_200;
     });
 }
 
