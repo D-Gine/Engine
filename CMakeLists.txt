@@ -22,6 +22,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_DIR}/Stat.cpp
     ${SRC_DIR}/Entity.cpp
+    ${SRC_DIR}/Server.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
