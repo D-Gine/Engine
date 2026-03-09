@@ -1,24 +1,27 @@
+/*
+ * Copyright 2026 <D&Gine Group>
+ */
+
 #include "Server.hpp"
-#include <iostream>
 #include <stdexcept>
 #include <thread>
+#include <print>
 
 namespace dng {
 
 Server::Server(const std::string &host, int port) noexcept
   : host_(host), port_(port), running_(false) {
     svr_.set_logger([](const httplib::Request& req, const httplib::Response& res) {
-        std::cout << req.method << " " << req.path << " -> " << res.status << std::endl;
+        std::println("{} {} -> {}", req.method, req.path, res.status);
     });
 
     svr_.set_error_logger([](const httplib::Error& err, const httplib::Request* req) {
-      std::cerr << httplib::to_string(err) << " while processing request";
+      std::println(stderr, "{} while processing request", httplib::to_string(err));
       if (req) {
-        std::cerr << ", client: " << req->get_header_value("X-Forwarded-For")
-                  << ", request: '" << req->method << " " << req->path << " " << req->version << "'"
-                  << ", host: " << req->get_header_value("Host");
+        std::println(stderr, ", client: {}, request: '{} {} {}, host: {}",
+            req->get_header_value("X-Forwarded-For"), req->method, req->path,
+            req->version, req->get_header_value("Host"));
       }
-      std::cerr << std::endl;
     });
 }
 
@@ -37,7 +40,7 @@ void Server::start() {
   if (running_)
       return;
   running_ = true;
-  std::cout << "Starting server on " << host_ << ":" << port_ << "\n";
+  std::println("Starting server on {}:{}", host_, port_);
   if (!svr_.listen(host_.c_str(), port_)) {
     running_ = false;
     throw std::runtime_error("Failed to start server");
@@ -51,7 +54,7 @@ void Server::start_async() {
     try {
       start();
     } catch (const std::exception &e) {
-      std::cerr << "Server failed: " << e.what() << "\n";
+      std::println(stderr, "Server failed: {}", e.what());
     }
   });
 }

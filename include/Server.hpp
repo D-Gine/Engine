@@ -1,3 +1,7 @@
+/*
+ * Copyright 2026 <D&Gine Group>
+ */
+
 #pragma once
 
 #include <string>
@@ -11,12 +15,12 @@ namespace dng {
 
 class Server {
  public:
-    static constexpr std::string DEFAULT_HOST = "6.7.6.7";
+    static constexpr std::string DEFAULT_HOST = "127.0.0.1";
     static constexpr unsigned int DEFAULT_PORT = 6767;
  public:
     using Handler = std::function<void(const httplib::Request&, httplib::Response&)>;
 
-    Server(const std::string &host = DEFAULT_HOST, int port = DEFAULT_PORT) noexcept;
+    Server(const std::string &host = DEFAULT_HOST, const int port = DEFAULT_PORT) noexcept;
     ~Server();
 
     // Enregistre un handler pour le server
