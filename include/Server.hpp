@@ -9,7 +9,7 @@
 #include <atomic>
 #include <memory>
 
-#include "cpp-httplib.hpp"
+#include "httplib.h"
 
 namespace dng {
 

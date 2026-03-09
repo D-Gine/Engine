@@ -36,5 +36,4 @@ int main() {
     }
     server.stop();
     server.join();
-    return 0;
 }
