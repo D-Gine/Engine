@@ -2,6 +2,7 @@
  * Copyright 2026 <D&Gine Group>
  */
 
-int main() {
+int main(void)
+{
     return 0;
 }
