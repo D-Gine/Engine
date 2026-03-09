@@ -23,6 +23,7 @@ Server::Server(const std::string &host, int port) noexcept
             req->version, req->get_header_value("Host"));
       }
     });
+    set_handlers();
 }
 
 Server::~Server() {
@@ -69,6 +70,17 @@ void Server::stop() {
 void Server::join() {
   if (th_ && th_->joinable())
       th_->join();
+}
+
+void Server::set_handlers() {
+    add_handler("/hi", [](const httplib::Request&, httplib::Response& res){
+        res.set_content("Hello World!", "text/plain");
+        res.status = 200;
+    });
+    add_handler("/health", [](const httplib::Request&, httplib::Response& res){
+        res.set_content("OK", "text/plain");
+        res.status = 200;
+    });
 }
 
 }  // namespace dng

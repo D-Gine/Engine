@@ -14,14 +14,6 @@ int main() {
     dng::RuleSet::init("tests/ruleset.json");
 
     dng::Server server;
-    server.add_handler("/hi", [](const httplib::Request&, httplib::Response& res){
-        res.set_content("Hello World!", "text/plain");
-        res.status = 200;
-    });
-    server.add_handler("/health", [](const httplib::Request&, httplib::Response& res){
-        res.set_content("OK", "text/plain");
-        res.status = 200;
-    });
 
     try {
         server.start_async();

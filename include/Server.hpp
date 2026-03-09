@@ -23,7 +23,7 @@ class Server {
     Server(const std::string &host = DEFAULT_HOST, const int port = DEFAULT_PORT) noexcept;
     ~Server();
 
-    // Enregistre un handler pour le server
+    // Enregistre un handler pour le server (Get http method)
     void add_handler(const std::string &pattern, Handler handler);
 
     // Start bloquant
@@ -46,6 +46,8 @@ class Server {
     httplib::Server svr_;
     std::unique_ptr<std::thread> th_;
     std::atomic_bool running_;
+
+    void set_handlers();
 };
 
 }  // namespace dng
