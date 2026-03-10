@@ -32,10 +32,63 @@ Server::~Server() {
   join();
 }
 
-void Server::add_handler(const std::string &pattern, Handler handler) {
-  svr_.Get(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res){
-    handler(req, res);
-  });
+void Server::add_handler(HttpMethod method, const std::string &pattern, Handler handler) {
+  switch (method) {
+    case HttpMethod::GET:
+      svr_.Get(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
+        handler(req, res);
+      });
+      break;
+    case HttpMethod::POST:
+      svr_.Post(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
+        handler(req, res);
+      });
+      break;
+    case HttpMethod::PUT:
+      svr_.Put(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
+        handler(req, res);
+      });
+      break;
+    case HttpMethod::DELETE:
+      svr_.Delete(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
+        handler(req, res);
+      });
+      break;
+    case HttpMethod::PATCH:
+      svr_.Patch(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
+        handler(req, res);
+      });
+      break;
+    case HttpMethod::OPTIONS:
+      svr_.Options(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
+        handler(req, res);
+      });
+      break;
+  }
+}
+
+void Server::add_get_handler(const std::string &pattern, Handler handler) {
+  add_handler(HttpMethod::GET, pattern, handler);
+}
+
+void Server::add_post_handler(const std::string &pattern, Handler handler) {
+  add_handler(HttpMethod::POST, pattern, handler);
+}
+
+void Server::add_put_handler(const std::string &pattern, Handler handler) {
+  add_handler(HttpMethod::PUT, pattern, handler);
+}
+
+void Server::add_delete_handler(const std::string &pattern, Handler handler) {
+  add_handler(HttpMethod::DELETE, pattern, handler);
+}
+
+void Server::add_patch_handler(const std::string &pattern, Handler handler) {
+  add_handler(HttpMethod::PATCH, pattern, handler);
+}
+
+void Server::add_options_handler(const std::string &pattern, Handler handler) {
+  add_handler(HttpMethod::OPTIONS, pattern, handler);
 }
 
 void Server::start() {
@@ -73,12 +126,16 @@ void Server::join() {
       th_->join();
 }
 
+bool Server::is_running() const noexcept {
+  return running_;
+}
+
 void Server::set_handlers() {
-    add_handler("/hi", [](const httplib::Request&, httplib::Response& res){
+    add_get_handler("/hi", [](const httplib::Request&, httplib::Response& res){
         res.set_content("Hello World!", "text/plain");
         res.status = httplib::StatusCode::OK_200;
     });
-    add_handler("/health", [](const httplib::Request&, httplib::Response& res){
+    add_get_handler("/health", [](const httplib::Request&, httplib::Response& res){
         res.set_content("OK", "text/plain");
         res.status = httplib::StatusCode::OK_200;
     });

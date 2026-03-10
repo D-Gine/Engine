@@ -15,16 +15,33 @@ namespace dng {
 
 class Server {
  public:
-    static constexpr std::string DEFAULT_HOST = "127.0.0.1";
+    static constexpr std::string_view DEFAULT_HOST = "127.0.0.1";
     static constexpr unsigned int DEFAULT_PORT = 6767;
  public:
     using Handler = std::function<void(const httplib::Request&, httplib::Response&)>;
 
-    Server(const std::string &host = DEFAULT_HOST, const int port = DEFAULT_PORT) noexcept;
+    enum class HttpMethod {
+        GET,
+        POST,
+        PUT,
+        DELETE,
+        PATCH,
+        OPTIONS
+    };
+
+    Server(const std::string &host = std::string(DEFAULT_HOST), const int port = DEFAULT_PORT) noexcept;
     ~Server();
 
-    // Enregistre un handler pour le server (Get http method)
-    void add_handler(const std::string &pattern, Handler handler);
+    // Enregistre un handler pour une méthode HTTP spécifique
+    void add_handler(HttpMethod method, const std::string &pattern, Handler handler);
+
+    // Raccourcis pour chaque méthode HTTP
+    void add_get_handler(const std::string &pattern, Handler handler);
+    void add_post_handler(const std::string &pattern, Handler handler);
+    void add_put_handler(const std::string &pattern, Handler handler);
+    void add_delete_handler(const std::string &pattern, Handler handler);
+    void add_patch_handler(const std::string &pattern, Handler handler);
+    void add_options_handler(const std::string &pattern, Handler handler);
 
     // Start bloquant
     void start();
