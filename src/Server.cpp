@@ -10,6 +10,76 @@
 
 namespace dng {
 
+// ==== RouteGroup methods ====
+
+Server::RouteGroup::RouteGroup(Server& server, const std::string& prefix)
+    : server_(server), prefix_(prefix) {}
+
+void Server::RouteGroup::use(Middleware middleware) {
+    middlewares_.push_back(middleware);
+}
+
+std::string Server::RouteGroup::build_path(const std::string& pattern) const {
+    if (prefix_.empty()) {
+        return pattern;
+    }
+    return prefix_ + pattern;
+}
+
+Handler Server::RouteGroup::wrap_handler(Handler handler) const {
+    Handler group_wrapped = [this, handler](const httplib::Request& req,
+                                             httplib::Response& res) {
+        for (const auto& middleware : middlewares_) {
+            if (!middleware(req, res)) {
+                return;
+            }
+        }
+        handler(req, res);
+    };
+
+    return server_.wrap_handler(group_wrapped);
+}
+
+void Server::RouteGroup::add_handler(Server::HttpMethod method, const std::string& pattern, Handler handler) {
+    std::string full_path = build_path(pattern);
+    Handler wrapped = wrap_handler(handler);
+    server_.add_handler(method, full_path, wrapped);
+}
+
+void Server::RouteGroup::add_get_handler(const std::string& pattern, Handler handler) {
+    add_handler(Server::HttpMethod::GET, pattern, handler);
+}
+
+void Server::RouteGroup::add_post_handler(const std::string& pattern, Handler handler) {
+    add_handler(Server::HttpMethod::POST, pattern, handler);
+}
+
+void Server::RouteGroup::add_put_handler(const std::string& pattern, Handler handler) {
+    add_handler(Server::HttpMethod::PUT, pattern, handler);
+}
+
+void Server::RouteGroup::add_delete_handler(const std::string& pattern, Handler handler) {
+    add_handler(Server::HttpMethod::DELETE, pattern, handler);
+}
+
+void Server::RouteGroup::add_patch_handler(const std::string& pattern, Handler handler) {
+    add_handler(Server::HttpMethod::PATCH, pattern, handler);
+}
+
+void Server::RouteGroup::add_options_handler(const std::string& pattern, Handler handler) {
+    add_handler(Server::HttpMethod::OPTIONS, pattern, handler);
+}
+
+Server::RouteGroup Server::RouteGroup::group(const std::string& prefix) {
+    RouteGroup sub_group(server_, build_path(prefix));
+    // Hérite des middlewares du groupe parent
+    sub_group.middlewares_ = middlewares_;
+    return sub_group;
+}
+
+
+// ==== Server methods ====
+
 Server::Server(const std::string &host, int port) noexcept
   : host_(host), port_(port), running_(false) {
     svr_.set_logger([](const httplib::Request& req, const httplib::Response& res) {
@@ -32,36 +102,54 @@ Server::~Server() {
   join();
 }
 
+void Server::use(Middleware middleware) {
+    middlewares_.push_back(middleware);
+}
+
+Handler Server::wrap_handler(Handler handler) const {
+    return [this, handler](const httplib::Request& req, httplib::Response& res) {
+        // Appliquer les middlewares globaux
+        for (const auto& middleware : middlewares_) {
+            if (!middleware(req, res)) {
+                return;
+            }
+        }
+        handler(req, res);
+    };
+}
+
 void Server::add_handler(HttpMethod method, const std::string &pattern, Handler handler) {
+  Handler wrapped = wrap_handler(handler);
+
   switch (method) {
     case HttpMethod::GET:
-      svr_.Get(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
-        handler(req, res);
+      svr_.Get(pattern.c_str(), [wrapped](const httplib::Request &req, httplib::Response &res) {
+        wrapped(req, res);
       });
       break;
     case HttpMethod::POST:
-      svr_.Post(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
-        handler(req, res);
+      svr_.Post(pattern.c_str(), [wrapped](const httplib::Request &req, httplib::Response &res) {
+        wrapped(req, res);
       });
       break;
     case HttpMethod::PUT:
-      svr_.Put(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
-        handler(req, res);
+      svr_.Put(pattern.c_str(), [wrapped](const httplib::Request &req, httplib::Response &res) {
+        wrapped(req, res);
       });
       break;
     case HttpMethod::DELETE:
-      svr_.Delete(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
-        handler(req, res);
+      svr_.Delete(pattern.c_str(), [wrapped](const httplib::Request &req, httplib::Response &res) {
+        wrapped(req, res);
       });
       break;
     case HttpMethod::PATCH:
-      svr_.Patch(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
-        handler(req, res);
+      svr_.Patch(pattern.c_str(), [wrapped](const httplib::Request &req, httplib::Response &res) {
+        wrapped(req, res);
       });
       break;
     case HttpMethod::OPTIONS:
-      svr_.Options(pattern.c_str(), [handler](const httplib::Request &req, httplib::Response &res) {
-        handler(req, res);
+      svr_.Options(pattern.c_str(), [wrapped](const httplib::Request &req, httplib::Response &res) {
+        wrapped(req, res);
       });
       break;
   }
@@ -89,6 +177,10 @@ void Server::add_patch_handler(const std::string &pattern, Handler handler) {
 
 void Server::add_options_handler(const std::string &pattern, Handler handler) {
   add_handler(HttpMethod::OPTIONS, pattern, handler);
+}
+
+Server::RouteGroup Server::group(const std::string &prefix) {
+  return RouteGroup(*this, prefix);
 }
 
 void Server::start() {
