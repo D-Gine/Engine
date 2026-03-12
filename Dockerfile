@@ -76,5 +76,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder ${VCPKG_ROOT} ${VCPKG_ROOT}
 COPY --from=builder /app/dengine /usr/local/bin/dengine
 
-EXPOSE 6767
 CMD ["/usr/local/bin/dengine"]
