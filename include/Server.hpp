@@ -20,7 +20,7 @@ using Handler = std::function<void(const httplib::Request&, httplib::Response&)>
 
 class Server {
  public:
-    static constexpr std::string_view DEFAULT_HOST = "127.0.0.1";
+    static constexpr std::string_view DEFAULT_HOST = "0.0.0.0";
     static constexpr unsigned int DEFAULT_PORT = 6767;
  public:
     // Méthodes HTTP supportées
