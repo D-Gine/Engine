@@ -17,8 +17,7 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 endif()
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(JSONCPP jsoncpp)
+find_package(jsoncpp CONFIG REQUIRED)
 
 find_package(Lua REQUIRED)
 
@@ -56,6 +55,6 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         luacpp
         ${LUA_LIBRARIES}
-        ${JSONCPP_LIBRARIES}
+        JsonCpp::JsonCpp
         ECS
 )
