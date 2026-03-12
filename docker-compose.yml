@@ -1,0 +1,16 @@
+services:
+  dengine:
+    container_name: dengine-${VERSION:-dev}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    networks:
+      - back
+    ports:
+      - "${DENGINE_PORT}:${DENGINE_PORT}"
+
+networks:
+  back:
+    #external: true
+    name: ${BACK_NETWORK}
