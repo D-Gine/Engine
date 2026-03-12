@@ -9,3 +9,5 @@ dengine
 
 vcpkg*/
 ECS
+
+.env
