@@ -1,6 +1,6 @@
 services:
   dengine:
-    container_name: dengine-${VERSION:-dev}
+    container_name: dengine-engine-${VERSION}
     build:
       context: .
       dockerfile: Dockerfile

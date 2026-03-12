@@ -1,7 +1,7 @@
 ### Env
 For this project you need the following environment variables:
 ```
-VERSION=dev
+VERSION=[VERSION : int.int.int]
 DENGINE_HOST=0.0.0.0
 DENGINE_PORT=6767
 
