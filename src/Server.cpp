@@ -228,7 +228,7 @@ void Server::set_handlers() {
         res.status = httplib::StatusCode::OK_200;
     });
     add_get_handler("/health", [](const httplib::Request&, httplib::Response& res){
-        res.set_content("OK", "text/plain");
+        res.set_content(R"({"status":"ok"})", "application/json");
         res.status = httplib::StatusCode::OK_200;
     });
 }
