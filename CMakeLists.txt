@@ -17,6 +17,9 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 endif()
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(JSONCPP jsoncpp)
+
 find_package(Lua REQUIRED)
 
 include(FetchContent)
@@ -36,6 +39,9 @@ add_subdirectory(ECS)
 
 ########## COMMUN ##########
 add_executable(${PROJECT_NAME}
+    ${SRC_DIR}/Entity.cpp
+    ${SRC_DIR}/Server.cpp
+    ${SRC_DIR}/Stat.cpp
     ${SRC_DIR}/main.cpp
 )
 
@@ -50,6 +56,6 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         luacpp
         ${LUA_LIBRARIES}
+        ${JSONCPP_LIBRARIES}
         ECS
 )
-
