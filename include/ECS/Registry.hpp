@@ -13,40 +13,46 @@
     #include <string>
     #include <expected>
     #include <exception>
+    #include <print>
 
     #include "ECS/DenseSparseArray.hpp"
     #include "ECS/Entity.hpp"
+    #include "ECS/SignalManager.hpp"
 
 namespace dng {
 
 class TypeNotRegistred : public std::exception {
  public:
-    TypeNotRegistred(const std::string& type) {
+    explicit TypeNotRegistred(const std::string& type) {
         _message = std::format("'{}' not registred", type);
-    };
+    }
     const char *what() const noexcept { return _message.c_str(); }
  private:
     std::string _message;
 };
 
 struct ComponentListStorer :
- public std::unordered_map<std::type_index, std::any> {
+    public std::unordered_map<std::type_index, std::any> {
     template<typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>, TypeNotRegistred> getSparseArray() {
+    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
+        TypeNotRegistred> getSparseArray() {
         if (find(typeid(Component)) == end())
             return std::unexpected(TypeNotRegistred(typeid(Component).name()));
-        return std::any_cast<DenseSparseArray<Component>&>(at(typeid(Component)));
+        return std::any_cast<DenseSparseArray<Component>&>(
+            at(typeid(Component)));
     }
 
     template<typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>, TypeNotRegistred> getSparseArray() const {
+    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
+        TypeNotRegistred> getSparseArray() const {
         if (find(typeid(Component)) == end())
             return std::unexpected(TypeNotRegistred(typeid(Component).name()));
-        return std::any_cast<DenseSparseArray<Component>&>(at(typeid(Component)));
+        return std::any_cast<DenseSparseArray<Component>&>(
+            at(typeid(Component)));
     }
 };
 
-class Registry {
+class Registry : public SignalManager{
  public:
     using ComponentRemover =
         std::vector<std::function<void(Registry&, const Entity&)>>;
@@ -55,7 +61,8 @@ class Registry {
 
  public:
     template <typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>, TypeNotRegistred> registerComponent() {
+    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
+        TypeNotRegistred> registerComponent() {
         _components.insert_or_assign(
             std::type_index(typeid(Component)), DenseSparseArray<Component>());
         _remover.push_back([](Registry& reg, Entity e) {
@@ -71,21 +78,16 @@ class Registry {
     }
 
     template <typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>, TypeNotRegistred> getComponents() {
+    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
+        TypeNotRegistred> getComponents() {
         return _components.getSparseArray<Component>();
     }
 
     template <typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>, TypeNotRegistred> const & getComponents() const {
+    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
+        TypeNotRegistred> const & getComponents() const {
         return _components.getSparseArray<Component>();
     }
-
-    void addSystem(const std::string& name,
-        const std::function<void(Registry&)>& f);
-    int getSystem(const std::string& name);
-    void removeSystem(const std::string& name);
-    void clearSystems(void);
-    void runSystems(void);
 
     void killEntity(Entity e);
 
@@ -93,7 +95,8 @@ class Registry {
     void createComponent(Entity e, Args&&... args) {
         auto list = _components.getSparseArray<Component>();
         if (!list.has_value()) {
-            std::println("Error: could not create component: {}", list.error().what());
+            std::println("Error: could not create component: {}",
+                list.error().what());
             return;
         }
         list.value().get().createComponent(e, std::forward<Args>(args)...);
@@ -103,7 +106,8 @@ class Registry {
     void addComponent(Entity e, const Component& c) {
         auto list = _components.getSparseArray<Component>();
         if (!list.has_value()) {
-            std::println("Error: could not add(&) component: {}", list.error().what());
+            std::println("Error: could not add(&) component: {}",
+                list.error().what());
             return;
         }
         list.value().get().addComponent(e, c);
@@ -113,7 +117,8 @@ class Registry {
     void addComponent(Entity e, Component&& c) {
         auto list = _components.getSparseArray<Component>();
         if (!list.has_value()) {
-            std::println("Error: could not add(&&) component: {}", list.error().what());
+            std::println("Error: could not add(&&) component: {}",
+                list.error().what());
             return;
         }
         list.value().get().addComponent(e, std::forward<Component>(c));
@@ -123,7 +128,8 @@ class Registry {
     void removeComponent(Entity e) {
         auto list = _components.getSparseArray<Component>();
         if (!list.has_value()) {
-            std::println("Error: could not remove component: {}", list.error().what());
+            std::println("Error: could not remove component: {}",
+                list.error().what());
             return;
         }
         list.value().get().removeComponent(e);
@@ -132,8 +138,6 @@ class Registry {
  private:
     ComponentListStorer _components;
     ComponentRemover _remover;
-
-    SystemList _systems;
 };
 
-}  // namesapce dng
+}  // namespace dng

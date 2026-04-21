@@ -1,6 +1,7 @@
 #!/bin/bash
 display_helper() {
     echo "To use this executer you must use a flag:
+        --init                  Initialize vcpkg
         --build, -b             Build the program with CMake
         --style-check, -cs      Check for coding style using cpplint
         --help, -h              More information about this script
@@ -24,6 +25,8 @@ init() {
 clear_project() {
     rm -rf ./build/
     rm -rf dengine
+    rm -rf vcpkg/
+    rm -rf .cache/
 }
 
 if [[ $1 == "--build" || $1 == "-b" ]]
