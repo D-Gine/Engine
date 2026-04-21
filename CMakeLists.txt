@@ -37,6 +37,9 @@ FetchContent_MakeAvailable(LuaCPP)
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/Server.cpp
     ${SRC_DIR}/main.cpp
+
+    # ECS
+    ${SRC_DIR}/ECS/Registry.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

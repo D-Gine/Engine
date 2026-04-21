@@ -33,13 +33,13 @@ int main() {
 
     auto positions = reg.getComponents<Position>();
     if (!positions.has_value())
-        std::println("{}", positions.error().what());
+        std::println("Error: getting component: {}", positions.error().what());
     auto velocities = reg.getComponents<Velocity>();
     if (!velocities.has_value())
-        std::println("{}", velocities.error().what());
+        std::println("Error: getting component: {}", velocities.error().what());
     auto fake = reg.getComponents<FakeComponent>();
     if (!fake.has_value())
-        std::println("{}", fake.error().what());
+        std::println("Error: getting component: {}", fake.error().what());
 
     reg.createComponent<Position>(10, 1.f, 1.f);
     reg.createComponent<Velocity>(10, 1.f, 1.f);
