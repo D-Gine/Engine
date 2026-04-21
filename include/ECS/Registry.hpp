@@ -31,11 +31,14 @@ class TypeNotRegistred : public std::exception {
     std::string _message;
 };
 
+template <typename Component>
+using SafeArray = std::expected<
+    std::reference_wrapper<DenseSparseArray<Component>>, TypeNotRegistred>;
+
 struct ComponentListStorer :
     public std::unordered_map<std::type_index, std::any> {
     template<typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
-        TypeNotRegistred> getSparseArray() {
+    SafeArray<Component> getSparseArray() {
         if (find(typeid(Component)) == end())
             return std::unexpected(TypeNotRegistred(typeid(Component).name()));
         return std::any_cast<DenseSparseArray<Component>&>(
@@ -43,8 +46,7 @@ struct ComponentListStorer :
     }
 
     template<typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
-        TypeNotRegistred> getSparseArray() const {
+    SafeArray<Component> getSparseArray() const {
         if (find(typeid(Component)) == end())
             return std::unexpected(TypeNotRegistred(typeid(Component).name()));
         return std::any_cast<DenseSparseArray<Component>&>(
@@ -61,8 +63,7 @@ class Registry : public SignalManager{
 
  public:
     template <typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
-        TypeNotRegistred> registerComponent() {
+    SafeArray<Component> registerComponent() {
         _components.insert_or_assign(
             std::type_index(typeid(Component)), DenseSparseArray<Component>());
         _remover.push_back([](Registry& reg, Entity e) {
@@ -78,14 +79,12 @@ class Registry : public SignalManager{
     }
 
     template <typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
-        TypeNotRegistred> getComponents() {
+    SafeArray<Component> getComponents() {
         return _components.getSparseArray<Component>();
     }
 
     template <typename Component>
-    std::expected<std::reference_wrapper<DenseSparseArray<Component>>,
-        TypeNotRegistred> const & getComponents() const {
+    SafeArray<Component> const & getComponents() const {
         return _components.getSparseArray<Component>();
     }
 

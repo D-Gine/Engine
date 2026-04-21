@@ -17,7 +17,7 @@ init() {
     git clone https://github.com/microsoft/vcpkg.git
     export VCPKG_ROOT=./vcpkg
     export PATH=$VCPKG_ROOT:$PATH
-    cd ./vcpkg && ./vcpkg/bootstrap-vcpkg.sh && cd ..
+    cd ./vcpkg && ./bootstrap-vcpkg.sh && cd ..
     cmake -B build -S .
     cmake --build build/
 }
@@ -25,7 +25,6 @@ init() {
 clear_project() {
     rm -rf ./build/
     rm -rf dengine
-    rm -rf vcpkg/
     rm -rf .cache/
 }
 

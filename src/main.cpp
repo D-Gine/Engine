@@ -6,6 +6,7 @@
 
 // #include "Server.hpp"
 #include "ECS/Registry.hpp"
+#include "ECS/Zipper.hpp"
 
 struct Position {
     float x;
@@ -30,12 +31,12 @@ int main() {
     reg.registerComponent<Position>();
     reg.registerComponent<Velocity>();
 
-    auto pos = reg.getComponents<Position>();
-    if (!pos.has_value())
-        std::println("{}", pos.error().what());
-    auto vel = reg.getComponents<Velocity>();
-    if (!vel.has_value())
-        std::println("{}", vel.error().what());
+    auto positions = reg.getComponents<Position>();
+    if (!positions.has_value())
+        std::println("{}", positions.error().what());
+    auto velocities = reg.getComponents<Velocity>();
+    if (!velocities.has_value())
+        std::println("{}", velocities.error().what());
     auto fake = reg.getComponents<FakeComponent>();
     if (!fake.has_value())
         std::println("{}", fake.error().what());
@@ -62,5 +63,9 @@ int main() {
     reg.enableCallback(id_float);
     reg.emit<int>(3);
     reg.disableCallback(400);
+    for (auto&& [e, pos, vel] : dng::IndexedZipper(*positions, *velocities)) {
+        std::println("found [{}] {}-{} and {}-{}",
+            e, pos.x, pos.y, vel.x, vel.y);
+    }
     return 0;
 }
