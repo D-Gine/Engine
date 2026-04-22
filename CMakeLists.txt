@@ -12,9 +12,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(HDR_DIR "${PROJECT_SOURCE_DIR}/include")
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /O2")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /O2")
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 endif()
 
 find_package(jsoncpp CONFIG REQUIRED)
@@ -33,15 +33,13 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(LuaCPP)
 
-add_subdirectory(ECS)
-
-
 ########## COMMUN ##########
 add_executable(${PROJECT_NAME}
-    ${SRC_DIR}/Entity.cpp
     ${SRC_DIR}/Server.cpp
-    ${SRC_DIR}/Stat.cpp
     ${SRC_DIR}/main.cpp
+
+    # ECS
+    ${SRC_DIR}/ECS/Registry.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -56,5 +54,4 @@ target_link_libraries(${PROJECT_NAME}
         luacpp
         ${LUA_LIBRARIES}
         JsonCpp::JsonCpp
-        ECS
 )

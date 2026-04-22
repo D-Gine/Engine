@@ -1,9 +1,11 @@
 #!/bin/bash
 display_helper() {
     echo "To use this executer you must use a flag:
+        --init                  Initialize vcpkg
         --build, -b             Build the program with CMake
         --style-check, -cs      Check for coding style using cpplint
         --help, -h              More information about this script
+        --doxygen, -doc         Create local documentation site using Doxygen
 
         << This section delete the old files created by the compilation >>
         --re-build, -rb         Build the program with CMake
@@ -16,7 +18,7 @@ init() {
     git clone https://github.com/microsoft/vcpkg.git
     export VCPKG_ROOT=./vcpkg
     export PATH=$VCPKG_ROOT:$PATH
-    cd ./vcpkg && ./vcpkg/bootstrap-vcpkg.sh && cd ..
+    cd ./vcpkg && ./bootstrap-vcpkg.sh && cd ..
     cmake -B build -S .
     cmake --build build/
 }
@@ -24,6 +26,7 @@ init() {
 clear_project() {
     rm -rf ./build/
     rm -rf dengine
+    rm -rf .cache/
 }
 
 if [[ $1 == "--build" || $1 == "-b" ]]
@@ -69,9 +72,19 @@ then
     pip install cpplint
     cpplint --recursive .
     echo "------------END------------"
+
 elif [[ $1 == "--init" ]]
 then
     init
+
+elif [[ $1 == "--doxygen" || $1 == "-doc" ]]
+then
+    echo "------------DOXYGEN------------"
+    rm -rf docs/html/
+    doxygen doxyfile
+    xdg-open docs/html/index.html
+    echo "------------END------------"
+
 
 elif [[ $1 == "--help" || $1 == "-h" ]]
 then

@@ -6,8 +6,10 @@ compile_commands.json
 # BUILD
 build
 dengine
+docs/html/
 
+# PACKAGES
 vcpkg*/
-ECS
 
+# ENVIRONT
 .env
