@@ -1,0 +1,8 @@
+<map id="dng::Registry::getComponents" name="dng::Registry::getComponents">
+<area shape="rect" id="Node000001" title="Get access to all components of a specific type." alt="" coords="396,5,615,31"/>
+<area shape="rect" id="Node000002" href="$main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="382,21,60,21,60,15,382,15"/>
+<area shape="rect" id="Node000003" href="$classdng_1_1Registry.html#ae1e2343c157d34d1a77019b4ecbdccc8" title="Register a new component type with the registry." alt="" coords="108,31,348,56"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="383,32,349,35,348,30,382,27"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="116,31,60,24,61,19,116,26"/>
+</map>

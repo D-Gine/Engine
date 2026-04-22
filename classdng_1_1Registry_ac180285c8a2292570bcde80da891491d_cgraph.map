@@ -1,0 +1,5 @@
+<map id="dng::Registry::addComponent" name="dng::Registry::addComponent">
+<area shape="rect" id="Node000001" title="Add a component by copying an existing instance." alt="" coords="5,13,220,38"/>
+<area shape="rect" id="Node000002" href="$structdng_1_1ComponentListStorer.html#af77dd9e010c30d8698d3cc6e8264aee5" title="Safely retrieve a component array by type." alt="" coords="268,5,459,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,23,254,23,254,28,220,28"/>
+</map>

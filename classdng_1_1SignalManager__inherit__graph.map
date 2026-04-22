@@ -1,0 +1,5 @@
+<map id="dng::SignalManager" name="dng::SignalManager">
+<area shape="rect" id="Node000001" title="Event&#45;driven signal/slot system using the Observer pattern." alt="" coords="5,5,156,31"/>
+<area shape="rect" id="Node000002" href="$classdng_1_1Registry.html" title="Central ECS (Entity Component System) Registry." alt="" coords="27,79,135,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,44,83,79,78,79,78,44"/>
+</map>

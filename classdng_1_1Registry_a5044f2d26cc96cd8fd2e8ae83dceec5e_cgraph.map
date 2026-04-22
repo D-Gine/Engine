@@ -1,0 +1,5 @@
+<map id="dng::Registry::createComponent" name="dng::Registry::createComponent">
+<area shape="rect" id="Node000001" title="Create a component in&#45;place using constructor arguments." alt="" coords="5,13,236,38"/>
+<area shape="rect" id="Node000002" href="$structdng_1_1ComponentListStorer.html#af77dd9e010c30d8698d3cc6e8264aee5" title="Safely retrieve a component array by type." alt="" coords="284,5,475,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,23,270,23,270,28,236,28"/>
+</map>

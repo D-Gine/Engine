@@ -1,7 +1,0 @@
-{
-  "dependencies": [
-    "cpp-httplib",
-    "lua",
-    "jsoncpp"
-  ]
-}

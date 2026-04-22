@@ -1,0 +1,5 @@
+<map id="dng::Registry::getComponents" name="dng::Registry::getComponents">
+<area shape="rect" id="Node000001" title="Const overload of getComponents." alt="" coords="5,13,224,38"/>
+<area shape="rect" id="Node000002" href="$structdng_1_1ComponentListStorer.html#af77dd9e010c30d8698d3cc6e8264aee5" title="Safely retrieve a component array by type." alt="" coords="272,5,463,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,23,258,23,258,28,224,28"/>
+</map>

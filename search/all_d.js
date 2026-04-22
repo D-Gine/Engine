@@ -1,0 +1,11 @@
+var searchData=
+[
+  ['operator_21_3d_0',['operator!=',['../classdng_1_1Zipper_1_1DenseZipIt.html#a3696b2e851b16ddd47e75a976b7556d8',1,'dng::Zipper::DenseZipIt::operator!='],['../classdng_1_1IndexedZipper_1_1Iterator.html#a3e9b7cbd8cc4df7eaa2265c48cb82450',1,'dng::IndexedZipper::Iterator::operator!=()']]],
+  ['operator_2a_1',['operator*',['../classdng_1_1Zipper_1_1DenseZipIt.html#a697888797050107b806dc462672c7b3b',1,'dng::Zipper::DenseZipIt::operator*()'],['../classdng_1_1IndexedZipper_1_1Iterator.html#a50c8b67d349937398d90bb26d619a7fa',1,'dng::IndexedZipper::Iterator::operator*()']]],
+  ['operator_2b_2b_2',['operator++',['../classdng_1_1Zipper_1_1DenseZipIt.html#a2526e73fd03de29e12c4ccfc3c13d2f1',1,'dng::Zipper::DenseZipIt::operator++()'],['../classdng_1_1Zipper_1_1DenseZipIt.html#aa2dd4f9a1c561815b2fb87833b81c9d9',1,'dng::Zipper::DenseZipIt::operator++(int)'],['../classdng_1_1IndexedZipper_1_1Iterator.html#a5b6375eea11056ae1fed1fa069270d5c',1,'dng::IndexedZipper::Iterator::operator++()'],['../classdng_1_1IndexedZipper_1_1Iterator.html#a08007c752e036d260507161ce8e3d765',1,'dng::IndexedZipper::Iterator::operator++(int)']]],
+  ['operator_2d_3e_3',['operator-&gt;',['../classdng_1_1Zipper_1_1DenseZipIt.html#a199755dbb65d177c07152aadc0fce8c2',1,'dng::Zipper::DenseZipIt']]],
+  ['operator_3d_4',['operator=',['../classdng_1_1SparseArray.html#a37156a6211d44fa5f6b1aa1f918af9d4',1,'dng::SparseArray::operator=(const SparseArray &amp;spa)=default'],['../classdng_1_1SparseArray.html#abdfeebdd184e54203e5da25c40b7dc73',1,'dng::SparseArray::operator=(SparseArray &amp;&amp;spa) noexcept=default']]],
+  ['operator_3d_3d_5',['operator==',['../classdng_1_1Zipper_1_1DenseZipIt.html#ab1fb4ee720ab7078a8c9960ee5b42c54',1,'dng::Zipper::DenseZipIt::operator=='],['../classdng_1_1IndexedZipper_1_1Iterator.html#ab0a8e86da4c40db421a0dc8b414dc53c',1,'dng::IndexedZipper::Iterator::operator==()']]],
+  ['operator_5b_5d_6',['operator[]',['../classdng_1_1SparseArray.html#a2661829ee9aa15fd5282b033959b3d5e',1,'dng::SparseArray::operator[](size_t idx)'],['../classdng_1_1SparseArray.html#ab062081ed49de74e5368a2bb3f8c6f2a',1,'dng::SparseArray::operator[](size_t idx) const']]],
+  ['options_7',['OPTIONS',['../classdng_1_1Server.html#af330367d641608ba5753e81d654eb32ea164dd62adb30ca051b5289672a572f9b',1,'dng::Server']]]
+];

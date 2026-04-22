@@ -1,0 +1,25 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,194,60,220"/>
+<area shape="rect" id="Node000002" href="$classdng_1_1Registry.html#ac180285c8a2292570bcde80da891491d" title="Add a component by copying an existing instance." alt="" coords="404,40,619,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="33,194,39,162,51,120,73,78,88,60,107,45,150,23,197,10,246,4,295,3,387,15,461,33,460,38,386,20,295,9,246,9,198,15,152,28,109,49,92,64,77,81,56,122,44,163,38,194"/>
+<area shape="rect" id="Node000004" href="$classdng_1_1Registry.html#a5044f2d26cc96cd8fd2e8ae83dceec5e" title="Create a component in&#45;place using constructor arguments." alt="" coords="396,138,627,164"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="34,193,42,167,56,135,77,102,107,77,155,57,207,49,260,51,312,61,362,76,408,94,478,129,476,134,405,99,360,81,311,66,259,57,207,54,157,62,109,81,81,106,61,137,47,169,39,195"/>
+<area shape="rect" id="Node000005" href="$classdng_1_1SignalManager.html#afc5ab55adaad5f75428bac9d309a5527" title="Disable a callback without removing it." alt="" coords="153,91,303,131"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="43,192,71,166,107,141,139,127,141,132,109,145,74,170,47,196"/>
+<area shape="rect" id="Node000006" href="$classdng_1_1SignalManager.html#a02a34483f40494c88de40a88914da968" title="Emit an event, triggering all enabled callbacks." alt="" coords="153,155,303,195"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="60,200,139,187,139,192,61,205"/>
+<area shape="rect" id="Node000007" href="$classdng_1_1SignalManager.html#a595c1d5c3e224905dbd3958b28e44a9a" title="Enable a previously disabled callback." alt="" coords="153,219,303,259"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="61,209,139,222,139,227,60,214"/>
+<area shape="rect" id="Node000008" href="$classdng_1_1Registry.html#a8ba5d37e36d36f87edc2311b4c9f6630" title="Get access to all components of a specific type." alt="" coords="402,284,621,309"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="46,218,73,245,109,269,178,290,251,302,322,307,388,306,388,311,322,312,250,307,177,295,107,273,69,249,42,222"/>
+<area shape="rect" id="Node000009" href="$classdng_1_1Registry.html#ae1e2343c157d34d1a77019b4ecbdccc8" title="Register a new component type with the registry." alt="" coords="108,334,348,360"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="42,219,66,265,86,291,110,313,136,327,133,332,106,317,82,295,62,268,37,221"/>
+<area shape="rect" id="Node000010" href="$classdng_1_1SignalManager.html#ae5ed551edb58109f85328d2298dde018" title="Subscribe a callback to a specific event type." alt="" coords="137,384,319,409"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="38,219,45,250,57,292,79,335,93,354,110,370,125,380,122,385,106,374,89,357,74,337,52,294,39,252,33,220"/>
+<area shape="rect" id="Node000003" href="$structdng_1_1ComponentListStorer.html#af77dd9e010c30d8698d3cc6e8264aee5" title="Safely retrieve a component array by type." alt="" coords="675,204,865,244"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="534,63,628,123,731,194,727,198,625,128,532,67"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="558,161,686,198,685,203,557,166"/>
+<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="557,281,684,245,685,251,559,286"/>
+<area shape="poly" id="edge12_Node000009_Node000003" title=" " alt="" coords="348,352,413,352,484,347,556,336,626,318,656,305,686,288,735,251,738,255,689,292,659,309,628,323,557,342,484,352,413,357,348,358"/>
+<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="299,332,426,309,427,314,300,337"/>
+</map>
