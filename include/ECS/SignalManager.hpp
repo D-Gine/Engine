@@ -35,8 +35,8 @@ namespace dng {
  * - Observers can be enabled/disabled dynamically
  * - Multiple observers can listen to the same event
  *
- * @example Basic usage
- * @code
+ * Basic usage example:
+ * @code{.cpp}
  * SignalManager manager;
  *
  * // Define event types
@@ -63,8 +63,8 @@ namespace dng {
  * manager.emit(PlayerDied{3});           // Triggers callback again
  * @endcode
  *
- * @example Real-world ECS integration
- * @code
+ * Real-world ECS integration example:
+ * @code{.cpp}
  * struct CollisionEvent {
  *     Entity entity_a;
  *     Entity entity_b;
@@ -123,8 +123,8 @@ class SignalManager {
      * @param func Callback function with signature: void(Type)
      * @return CallbackId Unique ID for this callback (use to enable/disable later)
      *
-     * @example Different callback types
-     * @code
+     * Different callback types example:
+     * @code{.cpp}
      * SignalManager mgr;
      *
      * struct MyEvent { int value; };
@@ -152,8 +152,8 @@ class SignalManager {
      * auto id4 = mgr.sub<MyEvent>(Handler{});
      * @endcode
      *
-     * @example Chaining events (cascading)
-     * @code
+     * Chaining events (cascading) example:
+     * @code{.cpp}
      * SignalManager mgr;
      *
      * struct EventA { int data; };
@@ -204,8 +204,8 @@ class SignalManager {
      *
      * @param id The callback ID returned from sub()
      *
-     * @example Pause/resume system
-     * @code
+     * Pause/resume system example:
+     * @code{.cpp}
      * SignalManager mgr;
      *
      * struct GameEvent { std::string message; };
@@ -242,8 +242,8 @@ class SignalManager {
      *
      * @param id The callback ID returned from sub()
      *
-     * @example Conditional event handling
-     * @code
+     * Conditional event handling example:
+     * @code{.cpp}
      * SignalManager mgr;
      *
      * struct DebugEvent { std::string message; };
@@ -288,8 +288,8 @@ class SignalManager {
      * @tparam Type The event type (deduced from parameter)
      * @param event The event instance to emit
      *
-     * @example Event broadcasting
-     * @code
+     * Event broadcasting example:
+     * @code{.cpp}
      * SignalManager mgr;
      *
      * struct PlayerScored {
@@ -319,8 +319,8 @@ class SignalManager {
      * mgr.emit(PlayerScored{1, 150});
      * @endcode
      *
-     * @example Event with no listeners (safe)
-     * @code
+     * Event with no listeners (safe) example:
+     * @code{.cpp}
      * struct UnusedEvent { int data; };
      * mgr.emit(UnusedEvent{42});  // No error, just no-op
      * @endcode

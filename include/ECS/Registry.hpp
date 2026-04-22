@@ -27,8 +27,8 @@ namespace dng {
  * This error occurs when you try to get, add, or remove a component type
  * that hasn't been registered with Registry::registerComponent<T>()
  *
- * @example
- * @code
+ * Example:
+ * @code{.cpp}
  * Registry reg;
  * // Forgot to call reg.registerComponent<Position>()
  * auto pos = reg.getComponents<Position>();  // Throws TypeNotRegistred
@@ -86,8 +86,8 @@ struct ComponentListStorer :
      *         - reference_wrapper to the array (use .value().get())
      *         - TypeNotRegistred error (check with .has_value())
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * auto result = storer.getSparseArray<Position>();
      * if (result.has_value()) {
      *     auto& array = result.value().get();  // Get actual array
@@ -136,8 +136,8 @@ struct ComponentListStorer :
  * 3. Query components: reg.getComponents<Position>()
  * 4. Iterate with systems: for (auto&& [pos, vel] : Zipper(positions, velocities))
  *
- * @example Basic usage
- * @code
+ * Basic usage example:
+ * @code{.cpp}
  * Registry reg;
  *
  * // 1. Register component types
@@ -195,8 +195,8 @@ class Registry : public SignalManager {
      * @tparam Component The component type to register (e.g., Position)
      * @return SafeArray<Component> reference to the component storage
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * struct Position { float x, y; };
      * struct Velocity { float dx, dy; };
      *
@@ -231,11 +231,11 @@ class Registry : public SignalManager {
      * @tparam Component The component type to retrieve
      * @return SafeArray<Component> Either the array or an error
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * auto positions = reg.getComponents<Position>();
      * if (!positions.has_value()) {
-     *     std::println("Error: {}", positions.error().what());
+     *     std::println("Position not registered: {}", positions.error().what());
      *     return;
      * }
      *
@@ -267,8 +267,8 @@ class Registry : public SignalManager {
      *
      * @param e The entity to destroy
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * Entity enemy = 42;
      * reg.createComponent<Position>(enemy, 10.0f, 5.0f);
      * reg.createComponent<Health>(enemy, 100);
@@ -292,8 +292,8 @@ class Registry : public SignalManager {
      * @param e The entity to attach the component to
      * @param args Constructor arguments forwarded to Component's constructor
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * struct Position {
      *     Position(float x, float y) : x(x), y(y) {}
      *     float x, y;
@@ -325,8 +325,8 @@ class Registry : public SignalManager {
      * @param e The entity to attach the component to
      * @param c The component instance to copy
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * Position template_pos{100.0f, 200.0f};
      *
      * // Copy template_pos to multiple entities
@@ -356,8 +356,8 @@ class Registry : public SignalManager {
      * @param e The entity to attach the component to
      * @param c The component instance to move (rvalue reference)
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * // Move a temporary directly
      * reg.addComponent<Position>(entity, Position{50.0f, 75.0f});
      *
@@ -387,8 +387,8 @@ class Registry : public SignalManager {
      * @tparam Component The component type to remove
      * @param e The entity to remove the component from
      *
-     * @example
-     * @code
+     * Example usage:
+     * @code{.cpp}
      * // Remove gravity from a flying enemy
      * reg.removeComponent<Gravity>(flying_enemy);
      *

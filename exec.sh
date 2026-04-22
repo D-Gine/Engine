@@ -5,6 +5,7 @@ display_helper() {
         --build, -b             Build the program with CMake
         --style-check, -cs      Check for coding style using cpplint
         --help, -h              More information about this script
+        --doxygen, -doc         Create local documentation site using Doxygen
 
         << This section delete the old files created by the compilation >>
         --re-build, -rb         Build the program with CMake
@@ -71,9 +72,19 @@ then
     pip install cpplint
     cpplint --recursive .
     echo "------------END------------"
+
 elif [[ $1 == "--init" ]]
 then
     init
+
+elif [[ $1 == "--doxygen" || $1 == "-doc" ]]
+then
+    echo "------------DOXYGEN------------"
+    rm -rf docs/html/
+    doxygen doxyfile
+    xdg-open docs/html/index.html
+    echo "------------END------------"
+
 
 elif [[ $1 == "--help" || $1 == "-h" ]]
 then
