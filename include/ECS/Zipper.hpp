@@ -32,7 +32,7 @@ template <class... Containers>
 class Zipper {
  public:
     template <class... Cs>
-    class DenseZipIt {
+    class ZipperIterator {
      public:
         template <class Container>
         using unwrapped_t = unwrap_refwrapper_t<Container>;
@@ -46,18 +46,18 @@ class Zipper {
         using difference_type = std::ptrdiff_t;
         using iterator_category = std::forward_iterator_tag;
 
-        DenseZipIt(std::tuple<Cs...> containers, size_t page, size_t idx = 0) :
+        ZipperIterator(std::tuple<Cs...> containers, size_t page, size_t idx = 0) :
             _currents(containers), _page(page), _idx(idx), _is_end(false) {
             if (!_is_end && !all_set(_seq)) {
                 incr_all();
             }
         }
 
-        DenseZipIt& operator++() {
+        ZipperIterator& operator++() {
             incr_all();
             return *this;
         }
-        DenseZipIt operator++(int) {
+        ZipperIterator operator++(int) {
             auto prev = *this;
             ++(*this);
             return prev;
@@ -70,14 +70,14 @@ class Zipper {
             return to_value(_seq);
         }
 
-        friend bool operator==(const DenseZipIt& lhs,
-            const DenseZipIt& rhs) {
+        friend bool operator==(const ZipperIterator& lhs,
+            const ZipperIterator& rhs) {
                 return lhs._is_end == rhs._is_end &&
                     (lhs._is_end ||
                     (lhs._page == rhs._page && lhs._idx == rhs._idx));
         }
-        friend bool operator!=(const DenseZipIt& lhs,
-            const DenseZipIt& rhs) {
+        friend bool operator!=(const ZipperIterator& lhs,
+            const ZipperIterator& rhs) {
             return !(lhs == rhs);
         }
 
@@ -154,7 +154,7 @@ class Zipper {
         static constexpr std::index_sequence_for<Cs...> _seq{};
     };
 
-    using iterator = DenseZipIt<Containers...>;
+    using iterator = ZipperIterator<Containers...>;
 
     explicit Zipper(Containers... cs) :
         _currents(std::make_tuple(cs...)) {}

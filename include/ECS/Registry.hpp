@@ -18,6 +18,7 @@
     #include "ECS/DenseSparseArray.hpp"
     #include "ECS/Entity.hpp"
     #include "ECS/SignalManager.hpp"
+    #include "ECS/SafeReference.hpp"
 
 namespace dng {
 
@@ -59,8 +60,7 @@ class TypeNotRegistred : public std::exception {
  * @tparam Component The component type (e.g., Position, Velocity)
  */
 template <typename Component>
-using SafeArray = std::expected<
-    std::reference_wrapper<DenseSparseArray<Component>>, TypeNotRegistred>;
+using SafeArray = ExpectRef<DenseSparseArray<Component>, TypeNotRegistred>;
 
 /**
  * @brief Type-erased storage for all component arrays
@@ -83,7 +83,7 @@ struct ComponentListStorer :
      *
      * @tparam Component The component type to retrieve
      * @return SafeArray<Component> containing either:
-     *         - reference_wrapper to the array (use .value().get())
+     *         - reference_wrapper to the array (use .value())
      *         - TypeNotRegistred error (check with .has_value())
      *
      * Example usage:
@@ -216,7 +216,7 @@ class Registry : public SignalManager {
                     components.error().what());
                 return;
             }
-            components.value().get().removeComponent(e);
+            components.value().erase(e);
         });
 
         return _components.getSparseArray<Component>();
@@ -312,7 +312,7 @@ class Registry : public SignalManager {
                 list.error().what());
             return;
         }
-        list.value().get().createComponent(e, std::forward<Args>(args)...);
+        list.value().emplace_at(e, std::forward<Args>(args)...);
     }
 
     /**
@@ -342,7 +342,7 @@ class Registry : public SignalManager {
                 list.error().what());
             return;
         }
-        list.value().get().addComponent(e, c);
+        list.value().insert_at(e, c);
 }
 
     /**
@@ -375,7 +375,7 @@ class Registry : public SignalManager {
                 list.error().what());
             return;
         }
-        list.value().get().addComponent(e, std::forward<Component>(c));
+        list.value().insert_at(e, std::forward<Component>(c));
     }
 
     /**
@@ -404,7 +404,7 @@ class Registry : public SignalManager {
                 list.error().what());
             return;
         }
-        list.value().get().removeComponent(e);
+        list.value().erase(e);
     }
 
  private:
