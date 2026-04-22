@@ -5,6 +5,10 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.c
 
 project(dengine)
 
+########## OPTIONS ##########
+option(ENABLE_ECS_TESTS "Build tests along with the library" OFF)
+option(ENABLE_ECS_COVERAGE "Enable coverage reporting" OFF)
+
 ########## SETUP ##########
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
@@ -19,19 +23,20 @@ endif()
 
 find_package(jsoncpp CONFIG REQUIRED)
 
-find_package(Lua REQUIRED)
-
 include(FetchContent)
 
-FetchContent_Declare(
-    LuaCPP
-    GIT_REPOSITORY https://github.com/jordanvrtanoski/luacpp
-    GIT_TAG main
-    SOURCE_SUBDIR Source
-    EXCLUDE_FROM_ALL
-)
+########## TESTING ##########
+if(ENABLE_ECS_COVERAGE)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+  endif()
+endif()
 
-FetchContent_MakeAvailable(LuaCPP)
+if (ENABLE_ECS_TESTS)
+  enable_testing()
+  add_subdirectory(tests/unit_tests)
+endif ()
 
 ########## COMMUN ##########
 add_executable(${PROJECT_NAME}
@@ -45,13 +50,9 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${HDR_DIR}
-        ${luacpp_SOURCE_DIR}/Source
-        ${LUA_INCLUDE_DIR}
 )
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        luacpp
-        ${LUA_LIBRARIES}
         JsonCpp::JsonCpp
 )

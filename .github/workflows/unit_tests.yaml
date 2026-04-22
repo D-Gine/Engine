@@ -1,0 +1,22 @@
+name: Unit tests
+
+on:
+  pull_request:
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Project
+        run: |
+          mkdir ./build/ && cd ./build/
+          cmake .. -DENABLE_ECS_TESTS=ON -DENABLE_ECS_COVERAGE=ON
+          cmake --build .
+
+      - name: Run Tests
+        working-directory: ./build/
+        run: ctest --output-on-failure

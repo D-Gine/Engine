@@ -6,6 +6,7 @@ compile_commands.json
 # BUILD
 build
 dengine
+unit_tests
 docs/html/
 
 # PACKAGES

@@ -10,6 +10,7 @@ display_helper() {
         << This section delete the old files created by the compilation >>
         --re-build, -rb         Build the program with CMake
         --debug-build, -d       Build the program with debug and verbose
+        --build-test, -t        Launch unit tests with coverage using GTest
         --clear, -c             Clear files created by the compilation and more
     "
 }
@@ -71,6 +72,23 @@ then
     echo "------------CS CHECKER------------"
     pip install cpplint
     cpplint --recursive .
+    echo "------------END------------"
+
+elif [[ $1 == "--build-tests" || $1 == "-t" ]]
+then
+    clear
+    echo "------------TESTS------------"
+    rm -rf ./build/ ./*.a
+    mkdir ./build/ && cd ./build/
+    cmake .. -DENABLE_ECS_TESTS=ON -DENABLE_ECS_COVERAGE=ON
+    cmake --build .
+    ctest --output-on-failure
+    gcovr --root .. \
+        --filter '../src/.*' \
+        --filter '../include/.*' \
+        --html --html-details -o coverage.html
+    xdg-open coverage.html
+    cd ..
     echo "------------END------------"
 
 elif [[ $1 == "--init" ]]
