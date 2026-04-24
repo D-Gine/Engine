@@ -41,6 +41,13 @@ int main() {
     if (!fake.has_value())
         std::println("Error: getting component: {}", fake.error().what());
 
+    auto val = positions.value()[0];
+    if (val.has_value()) {
+        std::println("HAS VAL: {}", val.value().x);
+    } else {
+        std::println("DON'T HAVE VAL");
+    }
+
     reg.createComponent<Position>(10, 1.f, 1.f);
     reg.createComponent<Velocity>(10, 1.f, 1.f);
 
@@ -63,9 +70,9 @@ int main() {
     reg.enableCallback(id_float);
     reg.emit<int>(3);
     reg.disableCallback(400);
-    for (auto&& [e, pos, vel] : dng::IndexedZipper(*positions, *velocities)) {
-        std::println("found [{}] {}-{} and {}-{}",
-            e, pos.x, pos.y, vel.x, vel.y);
-    }
+    // for (auto&& [e, pos, vel] : dng::IndexedZipper(*positions, *velocities)) {
+    //     std::println("found [{}] {}-{} and {}-{}",
+    //         e, pos.x, pos.y, vel.x, vel.y);
+    // }
     return 0;
 }
