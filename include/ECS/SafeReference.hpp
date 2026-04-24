@@ -8,6 +8,34 @@
     #include <optional>
     #include <functional>
 
+/**
+ * @brief std::expected wrapper that transparently holds a reference
+ *
+ * Inherits from std::expected<std::reference_wrapper<Object>, Error> and
+ * overrides operator*, value(), and operator-> to unwrap the reference
+ * automatically.
+ *
+ * @tparam Object The referenced object type
+ * @tparam Error  The error type returned on failure
+ *
+ * Example usage:
+ * @code{.cpp}
+ * ExpectRef<DenseSparseArray<Position>, TypeNotRegistred> getArray() {
+ *     if (!registered)
+ *         return std::unexpected(TypeNotRegistred("Position"));
+ *     return array;   // implicitly wraps the reference
+ * }
+ *
+ * auto result = getArray();
+ * if (result.has_value()) {
+ *     result->addComponent(entity, data);   // arrow operator
+ *     auto& arr = *result;                  // dereference operator
+ *     auto& arr = result.value();           // value() method
+ * } else {
+ *     std::println("error: {}", result.error().what());
+ * }
+ * @endcode
+ */
 template <typename Object, typename Error>
 class ExpectRef : public std::expected<std::reference_wrapper<Object>, Error> {
  private:
@@ -29,6 +57,33 @@ class ExpectRef : public std::expected<std::reference_wrapper<Object>, Error> {
     const Object* operator->() const { return &(Base::value().get()); }
 };
 
+/**
+ * @brief std::optional wrapper that transparently holds a reference
+ *
+ * Inherits from std::optional<std::reference_wrapper<Object>> and overrides
+ * operator*, value(), and operator-> to unwrap the reference automatically.
+ *
+ * Use this when you only need "present / absent" semantics and don't need
+ * an error value. For error details, use ExpectRef instead.
+ *
+ * @tparam Object The referenced object type
+ *
+ * Example usage:
+ * @code{.cpp}
+ * OptionalRef<std::string> findName(int id) {
+ *     auto it = names.find(id);
+ *     if (it == names.end())
+ *         return std::nullopt;
+ *     return it->second;   // implicitly wraps the reference
+ * }
+ *
+ * auto result = findName(42);
+ * if (result.has_value()) {
+ *     std::string& name = *result;    // dereference operator
+ *     result->clear();                // arrow operator
+ * }
+ * @endcode
+ */
 template <typename Object>
 class OptionalRef : public std::optional<std::reference_wrapper<Object>> {
  private:

@@ -49,13 +49,13 @@ class TypeNotRegistred : public std::exception {
  * @brief Type alias for safe component array access
  *
  * Returns either:
- * - A reference_wrapper to the component array (success case)
+ * - A reference to the component array (success case)
  * - A TypeNotRegistred error (failure case)
  *
- * Why std::reference_wrapper?
- * - std::expected cannot hold reference types directly (std::expected<T&, E> is illegal)
- * - reference_wrapper allows us to safely return references in value semantics
- * - Call .get() on the wrapper to access the underlying array
+ * ExpectRef automatically unwraps references:
+ * - Access with .value() to get the array reference directly
+ * - Or use operator* for dereference: *result
+ * - No need to call .get() - unwrapping is automatic
  *
  * @tparam Component The component type (e.g., Position, Velocity)
  */
@@ -83,17 +83,23 @@ struct ComponentListStorer :
      *
      * @tparam Component The component type to retrieve
      * @return SafeArray<Component> containing either:
-     *         - reference_wrapper to the array (use .value())
+     *         - A reference to the array (access with .value() or *result)
      *         - TypeNotRegistred error (check with .has_value())
      *
      * Example usage:
      * @code{.cpp}
      * auto result = storer.getSparseArray<Position>();
      * if (result.has_value()) {
-     *     auto& array = result.value().get();  // Get actual array
+     *     auto& array = result.value();  // Direct access, no .get() needed
      *     // Use array...
      * } else {
      *     std::println("Error: {}", result.error().what());
+     * }
+     *
+     * // Alternative: use operator*
+     * if (result.has_value()) {
+     *     auto& array = *result;
+     *     // Use array...
      * }
      * @endcode
      */
@@ -152,7 +158,7 @@ struct ComponentListStorer :
  * // 3. Access components in a system
  * auto positions = reg.getComponents<Position>();
  * auto velocities = reg.getComponents<Velocity>();
- * if (positions && velocities) {
+ * if (positions.has_value() && velocities.has_value()) {
  *     for (auto&& [pos, vel] : Zipper(*positions, *velocities)) {
  *         pos.x += vel.x;  // Move entities
  *         pos.y += vel.y;
